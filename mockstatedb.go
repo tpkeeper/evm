@@ -1,28 +1,28 @@
 package main
 
 import (
-	"github.com/tpkeeper/evm/kernel"
+	"github.com/tpkeeper/evm/common"
 	"math/big"
 )
 
 type MockStateDB struct {
-	stateStore map[kernel.Address][]byte
+	stateStore map[common.Address][]byte
 }
 
 func MakeNewMockStateDB() *MockStateDB {
 	mockstatedb := new(MockStateDB)
-	mockstatedb.stateStore = make(map[kernel.Address][]byte)
+	mockstatedb.stateStore = make(map[common.Address][]byte)
 	return mockstatedb
 }
 
-func (MockStateDB) CreateAccount(kernel.Address)           {}
-func (MockStateDB) SubBalance(kernel.Address, *big.Int)    {}
-func (MockStateDB) AddBalance(kernel.Address, *big.Int)    {}
-func (MockStateDB) GetBalance(kernel.Address) *big.Int     { return nil }
-func (MockStateDB) GetNonce(kernel.Address) uint64         { return 0 }
-func (MockStateDB) SetNonce(kernel.Address, uint64)        {}
-func (MockStateDB) GetCodeHash(kernel.Address) kernel.Hash { return kernel.Hash{} }
-func (mockstatedb MockStateDB) GetCode(address kernel.Address) []byte {
+func (MockStateDB) CreateAccount(common.Address)           {}
+func (MockStateDB) SubBalance(common.Address, *big.Int)    {}
+func (MockStateDB) AddBalance(common.Address, *big.Int)    {}
+func (MockStateDB) GetBalance(common.Address) *big.Int     { return nil }
+func (MockStateDB) GetNonce(common.Address) uint64         { return 0 }
+func (MockStateDB) SetNonce(common.Address, uint64)        {}
+func (MockStateDB) GetCodeHash(common.Address) common.Hash { return common.Hash{} }
+func (mockstatedb MockStateDB) GetCode(address common.Address) []byte {
 	_, ok := mockstatedb.stateStore[address]
 	if ok {
 		return mockstatedb.stateStore[address]
@@ -30,10 +30,10 @@ func (mockstatedb MockStateDB) GetCode(address kernel.Address) []byte {
 		return nil
 	}
 }
-func (mockstatedb MockStateDB) SetCode(address kernel.Address, data []byte) {
+func (mockstatedb MockStateDB) SetCode(address common.Address, data []byte) {
 	mockstatedb.stateStore[address] = data
 }
-func (mockstatedb MockStateDB) GetCodeSize(address kernel.Address) int {
+func (mockstatedb MockStateDB) GetCodeSize(address common.Address) int {
 	_, ok := mockstatedb.stateStore[address]
 	if ok {
 		return len(mockstatedb.stateStore[address])
@@ -43,22 +43,31 @@ func (mockstatedb MockStateDB) GetCodeSize(address kernel.Address) int {
 }
 func (MockStateDB) AddRefund(uint64)                                  {}
 func (MockStateDB) GetRefund() uint64                                 { return 0 }
-func (MockStateDB) GetState(kernel.Address, kernel.Hash) kernel.Hash  { return kernel.Hash{} }
-func (MockStateDB) SetState(kernel.Address, kernel.Hash, kernel.Hash) {}
-func (MockStateDB) Suicide(kernel.Address) bool                       { return false }
-func (MockStateDB) HasSuicided(kernel.Address) bool                   { return false }
-func (MockStateDB) Exist(kernel.Address) bool {
+
+
+
+func (MockStateDB) SubRefund(uint64){}
+
+func (MockStateDB) GetCommittedState(common.Address, common.Hash) common.Hash{return common.Hash{}}
+func (MockStateDB) GetState(common.Address, common.Hash) common.Hash  { return common.Hash{} }
+func (MockStateDB) SetState(common.Address, common.Hash, common.Hash) {}
+func (MockStateDB) Suicide(common.Address) bool                       { return false }
+func (MockStateDB) HasSuicided(common.Address) bool                   { return false }
+func (MockStateDB) Exist(common.Address) bool {
 	return true
 }
-func (MockStateDB) Empty(kernel.Address) bool                                          { return false }
+func (MockStateDB) Empty(common.Address) bool                                          { return false }
 func (MockStateDB) RevertToSnapshot(int)                                               {}
 func (MockStateDB) Snapshot() int                                                      { return 0 }
-func (MockStateDB) AddLog(*kernel.Log)                                                 {}
-func (MockStateDB) AddPreimage(kernel.Hash, []byte)                                    {}
-func (MockStateDB) ForEachStorage(kernel.Address, func(kernel.Hash, kernel.Hash) bool) {}
-func (MockStateDB) HaveSufficientBalance(kernel.Address, *big.Int) bool {
+func (MockStateDB) AddLog(*common.Log)                                                 {}
+func (MockStateDB) AddPreimage(common.Hash, []byte)                                    {}
+//func (MockStateDB) ForEachStorage(common.Address, func(common.Hash, common.Hash) bool) {}
+func (MockStateDB) HaveSufficientBalance(common.Address, *big.Int) bool {
 	return true
 }
-func (MockStateDB) TransferBalance(kernel.Address, kernel.Address, *big.Int) {
+func (MockStateDB) TransferBalance(common.Address, common.Address, *big.Int) {
 
+}
+func (MockStateDB) ForEachStorage(common.Address, func(common.Hash, common.Hash) bool) error{
+	return nil
 }

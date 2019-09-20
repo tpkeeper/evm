@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/tpkeeper/evm/kernel"
 	"fmt"
+	"github.com/tpkeeper/evm/common"
+	"github.com/tpkeeper/evm/vm"
 	"math/big"
 )
 
@@ -13,12 +14,13 @@ func main() {
 	TestInput := []byte("Contract")
 	TestCallerAddress := []byte("TestAddress")
 	TestContractAddress := []byte("TestContract")
-	calleraddress := kernel.BytesToAddress(TestCallerAddress)
-	contractaddress := kernel.BytesToAddress(TestContractAddress)
+	calleraddress := common.BytesToAddress(TestCallerAddress)
+	contractaddress := common.BytesToAddress(TestContractAddress)
 	evm := CreateExecuteRuntime(calleraddress)
-	evm.StateDBHandler.CreateAccount(contractaddress)
-	evm.StateDBHandler.SetCode(contractaddress, kernel.Hex2Bytes(HexTestCode))
-	caller := kernel.AccountRef(evm.Origin)
+	evm.StateDB.CreateAccount(contractaddress)
+
+	evm.StateDB.SetCode(contractaddress, common.Hex2Bytes(HexTestCode))
+	caller := vm.AccountRef(evm.Origin)
 	ret, _, err := evm.Call(
 		caller,
 		contractaddress,

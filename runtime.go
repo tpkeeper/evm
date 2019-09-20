@@ -1,24 +1,27 @@
 package main
 
 import (
-	"github.com/tpkeeper/evm/kernel"
+	"github.com/tpkeeper/evm/common"
+	"github.com/tpkeeper/evm/common/math"
+	"github.com/tpkeeper/evm/params"
+	"github.com/tpkeeper/evm/vm"
 	"math/big"
 	"time"
 )
 
-func CreateLogTracer() *kernel.StructLogger {
-	logConf := kernel.LogConfig{
+func CreateLogTracer() *vm.StructLogger {
+	logConf := vm.LogConfig{
 		DisableMemory:  false,
 		DisableStack:   false,
 		DisableStorage: false,
 		Debug:          false,
 		Limit:          0,
 	}
-	return kernel.NewStructLogger(&logConf)
+	return vm.NewStructLogger(&logConf)
 
 }
-func CreateChainConfig() *kernel.ChainConfig {
-	chainCfg := kernel.ChainConfig{
+func CreateChainConfig() *params.ChainConfig {
+	chainCfg := params.ChainConfig{
 		ChainID:        big.NewInt(1),
 		HomesteadBlock: new(big.Int),
 		DAOForkBlock:   new(big.Int),
@@ -29,20 +32,22 @@ func CreateChainConfig() *kernel.ChainConfig {
 	}
 	return &chainCfg
 }
-func CreateExecuteContext(caller kernel.Address) kernel.Context {
-	context := kernel.Context{
+func CreateExecuteContext(caller common.Address) vm.Context {
+	context := vm.Context{
 		Origin:      caller,
 		GasPrice:    new(big.Int),
-		Coinbase:    kernel.BytesToAddress([]byte("coinbase")),
-		GasLimit:    kernel.MaxUint64,
+		Coinbase:    common.BytesToAddress([]byte("coinbase")),
+		GasLimit:    math.MaxUint64,
 		BlockNumber: new(big.Int),
 		Time:        big.NewInt(time.Now().Unix()),
 		Difficulty:  new(big.Int),
+		CanTransfer: func(sd vm.StateDB, add common.Address, b *big.Int) bool { return true },
+		Transfer:    func(sd vm.StateDB, add common.Address, addr common.Address, b *big.Int){},
 	}
 	return context
 }
-func CreateVMDefaultConfig() kernel.Config {
-	return kernel.Config{
+func CreateVMDefaultConfig() vm.Config {
+	return vm.Config{
 		Debug:                   true,
 		Tracer:                  CreateLogTracer(),
 		NoRecursion:             false,
@@ -50,13 +55,12 @@ func CreateVMDefaultConfig() kernel.Config {
 	}
 
 }
-func CreateExecuteRuntime(caller kernel.Address) *kernel.EVM {
+func CreateExecuteRuntime(caller common.Address) *vm.EVM {
 	context := CreateExecuteContext(caller)
 	stateDB := MakeNewMockStateDB()
 	chainConfig := CreateChainConfig()
 	vmConfig := CreateVMDefaultConfig()
-	chainHandler := new(ETHChainHandler)
 
-	evm := kernel.NewEVM(context, stateDB, chainHandler, chainConfig, vmConfig)
+	evm := vm.NewEVM(context, stateDB, chainConfig, vmConfig)
 	return evm
 }

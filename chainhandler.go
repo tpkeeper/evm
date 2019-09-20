@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/tpkeeper/evm/kernel"
+	"github.com/tpkeeper/evm/common"
 )
 
 type ETHChainHandler struct{}
 
-func (ethChainHandler *ETHChainHandler) GetBlockHeaderHash(uint64) kernel.Hash {
+func (ethChainHandler *ETHChainHandler) GetBlockHeaderHash(uint64) common.Hash {
 	//just return a fake value
-	return kernel.HexToHash("this is a demo")
+	return common.HexToHash("this is a demo")
 }
