@@ -18,7 +18,7 @@ func MakeNewMockStateDB() *MockStateDB {
 func (MockStateDB) CreateAccount(common.Address)           {}
 func (MockStateDB) SubBalance(common.Address, *big.Int)    {}
 func (MockStateDB) AddBalance(common.Address, *big.Int)    {}
-func (MockStateDB) GetBalance(common.Address) *big.Int     { return nil }
+func (MockStateDB) GetBalance(common.Address) *big.Int     { return big.NewInt(1000) }
 func (MockStateDB) GetNonce(common.Address) uint64         { return 0 }
 func (MockStateDB) SetNonce(common.Address, uint64)        {}
 func (MockStateDB) GetCodeHash(common.Address) common.Hash { return common.Hash{} }
