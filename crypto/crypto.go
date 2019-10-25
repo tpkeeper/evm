@@ -30,7 +30,7 @@ import (
 
 	"github.com/tpkeeper/evm/common"
 	"github.com/tpkeeper/evm/common/math"
-	"github.com/tpkeeper/evm/common/rlp"
+	"github.com/tpkeeper/evm/rlp"
 	"golang.org/x/crypto/sha3"
 )
 

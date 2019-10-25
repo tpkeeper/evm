@@ -20,7 +20,7 @@ import (
 	"math/big"
 
 	"github.com/tpkeeper/evm/common"
-
+	"github.com/tpkeeper/evm/types"
 )
 
 // StateDB is an EVM database for full state querying.
@@ -60,7 +60,7 @@ type StateDB interface {
 	RevertToSnapshot(int)
 	Snapshot() int
 
-	AddLog(*common.Log)
+	AddLog(*types.Log)
 	AddPreimage(common.Hash, []byte)
 
 	ForEachStorage(common.Address, func(common.Hash, common.Hash) bool) error

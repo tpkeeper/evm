@@ -22,6 +22,7 @@ import (
 
 	"github.com/tpkeeper/evm/common"
 	"github.com/tpkeeper/evm/common/math"
+	"github.com/tpkeeper/evm/types"
 	"github.com/tpkeeper/evm/params"
 	"golang.org/x/crypto/sha3"
 )
@@ -895,7 +896,7 @@ func makeLog(size int) executionFunc {
 		}
 
 		d := memory.Get(mStart.Int64(), mSize.Int64())
-		interpreter.evm.StateDB.AddLog(&common.Log{
+		interpreter.evm.StateDB.AddLog(&types.Log{
 			Address: contract.Address(),
 			Topics:  topics,
 			Data:    d,

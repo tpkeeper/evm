@@ -26,6 +26,7 @@ import (
 	"github.com/tpkeeper/evm/common"
 	"github.com/tpkeeper/evm/common/hexutil"
 	"github.com/tpkeeper/evm/common/math"
+	"github.com/tpkeeper/evm/types"
 )
 
 // Storage represents a contract's storage.
@@ -241,7 +242,7 @@ func WriteTrace(writer io.Writer, logs []StructLog) {
 }
 
 // WriteLogs writes vm logs in a readable format to the given writer
-func WriteLogs(writer io.Writer, logs []*common.Log) {
+func WriteLogs(writer io.Writer, logs []*types.Log) {
 	for _, log := range logs {
 		fmt.Fprintf(writer, "LOG%d: %x bn=%d txi=%x\n", len(log.Topics), log.Address, log.BlockNumber, log.TxIndex)
 

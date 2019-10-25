@@ -23,6 +23,7 @@ import (
 
 	"github.com/tpkeeper/evm/common"
 	"github.com/tpkeeper/evm/common/math"
+	"github.com/tpkeeper/evm/log"
 )
 
 // Config are the configuration options for the Interpreter
@@ -111,7 +112,7 @@ func NewEVMInterpreter(evm *EVM, cfg Config) *EVMInterpreter {
 			if err := EnableEIP(eip, &jt); err != nil {
 				// Disable it, so caller can check if it's activated or not
 				cfg.ExtraEips = append(cfg.ExtraEips[:i], cfg.ExtraEips[i+1:]...)
-				fmt.Println(fmt.Errorf("EIP activation failed", "eip", eip, "error", err))
+				log.Error("EIP activation failed", "eip", eip, "error", err)
 			}
 		}
 		cfg.JumpTable = jt
