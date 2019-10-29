@@ -121,6 +121,41 @@ func Execute(code, input []byte, cfg *Config) ([]byte, *state.StateDB, error) {
 	return ret, cfg.State, err
 }
 
+
+
+func Execute2(code, input []byte, cfg *Config) ([]byte, *state.StateDB, error) {
+	if cfg == nil {
+		cfg = new(Config)
+	}
+	setDefaults(cfg)
+
+	if cfg.State == nil {
+		db,err:=rawdb.NewLevelDBDatabase("hello",5,5,"world")
+		if err!=nil{
+			return nil,nil,err
+		}
+		cfg.State, _ = state.New(common.Hash{}, state.NewDatabaseWithCache(db, 0))
+	}
+	var (
+		address = common.BytesToAddress([]byte("contract"))
+		vmenv   = NewEnv(cfg)
+		sender  = vm.AccountRef(cfg.Origin)
+	)
+	cfg.State.CreateAccount(address)
+	// set the receiver's (the executing contract) code for execution.
+	cfg.State.SetCode(address, code)
+	// Call the code with the given configuration.
+	ret, _, err := vmenv.Call(
+		sender,
+		common.BytesToAddress([]byte("contract")),
+		input,
+		cfg.GasLimit,
+		cfg.Value,
+	)
+
+	return ret, cfg.State, err
+}
+
 // Create executes the code using the EVM create method
 func Create(input []byte, cfg *Config) ([]byte, common.Address, uint64, error) {
 	if cfg == nil {

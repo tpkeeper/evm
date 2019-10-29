@@ -40,7 +40,7 @@ func NewEVMContext(msg Message, header *types.Header, chain ChainContext, author
 	// If we don't have an explicit author (i.e. not mining), extract from the header
 	var beneficiary common.Address
 	if author == nil {
-		beneficiary, _ = chain.Author(header) // Ignore error, we're past header validation
+		beneficiary = header.Coinbase // Ignore error, we're past header validation
 	} else {
 		beneficiary = *author
 	}
