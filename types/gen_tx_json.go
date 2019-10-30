@@ -34,9 +34,6 @@ func (t txdata) MarshalJSON() ([]byte, error) {
 	enc.Recipient = t.Recipient
 	enc.Amount = (*hexutil.Big)(t.Amount)
 	enc.Payload = t.Payload
-	enc.V = (*hexutil.Big)(t.V)
-	enc.R = (*hexutil.Big)(t.R)
-	enc.S = (*hexutil.Big)(t.S)
 	enc.Hash = t.Hash
 	return json.Marshal(&enc)
 }
@@ -82,18 +79,7 @@ func (t *txdata) UnmarshalJSON(input []byte) error {
 		return errors.New("missing required field 'input' for txdata")
 	}
 	t.Payload = *dec.Payload
-	if dec.V == nil {
-		return errors.New("missing required field 'v' for txdata")
-	}
-	t.V = (*big.Int)(dec.V)
-	if dec.R == nil {
-		return errors.New("missing required field 'r' for txdata")
-	}
-	t.R = (*big.Int)(dec.R)
-	if dec.S == nil {
-		return errors.New("missing required field 's' for txdata")
-	}
-	t.S = (*big.Int)(dec.S)
+
 	if dec.Hash != nil {
 		t.Hash = dec.Hash
 	}
