@@ -29,7 +29,6 @@ func TestApplyTransaction(t *testing.T) {
 	stateDb, err := state.New(common.HexToHash("de883b74321bce8a0839353455e483d7b6d07f8edf1a6713a3b973ebe81aa67a"), state.NewDatabaseWithCache(db, 0))
 
 
-
 	balance:=stateDb.GetBalance(common.BytesToAddress([]byte("contract")))
 	t.Log("balance",balance)
 
@@ -38,7 +37,6 @@ func TestApplyTransaction(t *testing.T) {
 
 
 	chainConfig := params.ChainConfig{
-		HomesteadBlock: new(big.Int),
 		EIP150Block:    new(big.Int),
 		EIP155Block:    new(big.Int),
 		EIP158Block:    new(big.Int),

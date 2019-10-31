@@ -35,7 +35,6 @@ type Config struct {
 
 	JumpTable [256]operation // EVM instruction table, automatically populated if unset
 
-	EWASMInterpreter string // External EWASM interpreter options
 	EVMInterpreter   string // External EVM interpreter options
 
 	ExtraEips []int // Additional EIPS that are to be enabled
@@ -92,20 +91,8 @@ func NewEVMInterpreter(evm *EVM, cfg Config) *EVMInterpreter {
 	// we'll set the default jump table.
 	if !cfg.JumpTable[STOP].valid {
 		var jt JumpTable
-		switch {
-		case evm.chainRules.IsConstantinople:
-			jt = constantinopleInstructionSet
-		case evm.chainRules.IsByzantium:
-			jt = byzantiumInstructionSet
-		case evm.chainRules.IsEIP158:
-			jt = spuriousDragonInstructionSet
-		case evm.chainRules.IsEIP150:
-			jt = tangerineWhistleInstructionSet
-		case evm.chainRules.IsHomestead:
-			jt = homesteadInstructionSet
-		default:
-			jt = frontierInstructionSet
-		}
+		jt = constantinopleInstructionSet
+
 		for i, eip := range cfg.ExtraEips {
 			if err := EnableEIP(eip, &jt); err != nil {
 				// Disable it, so caller can check if it's activated or not
@@ -212,7 +199,7 @@ func (in *EVMInterpreter) Run(contract *Contract, input []byte, readOnly bool) (
 			return nil, fmt.Errorf("stack limit reached %d (%d)", sLen, operation.maxStack)
 		}
 		// If the operation is valid, enforce and write restrictions
-		if in.readOnly && in.evm.chainRules.IsByzantium {
+		if in.readOnly{
 			// If the interpreter is operating in readonly mode, make sure no
 			// state-modifying operation is performed. The 3rd stack item
 			// for a call operation is the value. Transferring value from one
