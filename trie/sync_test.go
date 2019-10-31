@@ -21,7 +21,7 @@ import (
 	"testing"
 
 	"github.com/tpkeeper/evm/common"
-	"github.com/tpkeeper/evm/ethdb/memorydb"
+	"github.com/tpkeeper/evm/keyvaluedb/memorydb"
 )
 
 // makeTestTrie create a sample test trie to test node-wise reconstruction.

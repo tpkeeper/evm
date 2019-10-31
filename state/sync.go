@@ -20,13 +20,13 @@ import (
 	"bytes"
 
 	"github.com/tpkeeper/evm/common"
-	"github.com/tpkeeper/evm/ethdb"
+	"github.com/tpkeeper/evm/keyvaluedb"
 	"github.com/tpkeeper/evm/rlp"
 	"github.com/tpkeeper/evm/trie"
 )
 
 // NewStateSync create a new state trie download scheduler.
-func NewStateSync(root common.Hash, database ethdb.KeyValueReader, bloom *trie.SyncBloom) *trie.Sync {
+func NewStateSync(root common.Hash, database keyvaluedb.KeyValueReader, bloom *trie.SyncBloom) *trie.Sync {
 	var syncer *trie.Sync
 	callback := func(leaf []byte, parent common.Hash) error {
 		var obj Account

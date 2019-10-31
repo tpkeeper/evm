@@ -25,11 +25,11 @@ import (
 	"github.com/tpkeeper/evm/common"
 	"github.com/tpkeeper/evm/rawdb"
 	"github.com/tpkeeper/evm/crypto"
-	"github.com/tpkeeper/evm/ethdb"
+	"github.com/tpkeeper/evm/keyvaluedb"
 )
 
 type StateSuite struct {
-	db    ethdb.Database
+	db    keyvaluedb.Database
 	state *StateDB
 }
 

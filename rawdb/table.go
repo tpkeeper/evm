@@ -17,18 +17,18 @@
 package rawdb
 
 import (
-	"github.com/tpkeeper/evm/ethdb"
+	"github.com/tpkeeper/evm/keyvaluedb"
 )
 
 // table is a wrapper around a database that prefixes each key access with a pre-
 // configured string.
 type table struct {
-	db     ethdb.Database
+	db     keyvaluedb.Database
 	prefix string
 }
 
 // NewTable returns a database object that prefixes all keys with a given string.
-func NewTable(db ethdb.Database, prefix string) ethdb.Database {
+func NewTable(db keyvaluedb.Database, prefix string) keyvaluedb.Database {
 	return &table{
 		db:     db,
 		prefix: prefix,
@@ -105,20 +105,20 @@ func (t *table) Delete(key []byte) error {
 
 // NewIterator creates a binary-alphabetical iterator over the entire keyspace
 // contained within the database.
-func (t *table) NewIterator() ethdb.Iterator {
+func (t *table) NewIterator() keyvaluedb.Iterator {
 	return t.NewIteratorWithPrefix(nil)
 }
 
 // NewIteratorWithStart creates a binary-alphabetical iterator over a subset of
 // database content starting at a particular initial key (or after, if it does
 // not exist).
-func (t *table) NewIteratorWithStart(start []byte) ethdb.Iterator {
+func (t *table) NewIteratorWithStart(start []byte) keyvaluedb.Iterator {
 	return t.db.NewIteratorWithStart(start)
 }
 
 // NewIteratorWithPrefix creates a binary-alphabetical iterator over a subset
 // of database content with a particular key prefix.
-func (t *table) NewIteratorWithPrefix(prefix []byte) ethdb.Iterator {
+func (t *table) NewIteratorWithPrefix(prefix []byte) keyvaluedb.Iterator {
 	return t.db.NewIteratorWithPrefix(append([]byte(t.prefix), prefix...))
 }
 
@@ -162,14 +162,14 @@ func (t *table) Compact(start []byte, limit []byte) error {
 // NewBatch creates a write-only database that buffers changes to its host db
 // until a final write is called, each operation prefixing all keys with the
 // pre-configured string.
-func (t *table) NewBatch() ethdb.Batch {
+func (t *table) NewBatch() keyvaluedb.Batch {
 	return &tableBatch{t.db.NewBatch(), t.prefix}
 }
 
 // tableBatch is a wrapper around a database batch that prefixes each key access
 // with a pre-configured string.
 type tableBatch struct {
-	batch  ethdb.Batch
+	batch  keyvaluedb.Batch
 	prefix string
 }
 
@@ -199,6 +199,6 @@ func (b *tableBatch) Reset() {
 }
 
 // Replay replays the batch contents.
-func (b *tableBatch) Replay(w ethdb.KeyValueWriter) error {
+func (b *tableBatch) Replay(w keyvaluedb.KeyValueWriter) error {
 	return b.batch.Replay(w)
 }

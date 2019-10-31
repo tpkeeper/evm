@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	"github.com/tpkeeper/evm/common"
-	"github.com/tpkeeper/evm/ethdb/memorydb"
+	"github.com/tpkeeper/evm/keyvaluedb/memorydb"
 )
 
 // Tests that the trie database returns a missing trie node error if attempting

@@ -31,9 +31,9 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/tpkeeper/evm/common"
 	"github.com/tpkeeper/evm/crypto"
-	"github.com/tpkeeper/evm/ethdb"
-	"github.com/tpkeeper/evm/ethdb/leveldb"
-	"github.com/tpkeeper/evm/ethdb/memorydb"
+	"github.com/tpkeeper/evm/keyvaluedb"
+	"github.com/tpkeeper/evm/keyvaluedb/leveldb"
+	"github.com/tpkeeper/evm/keyvaluedb/memorydb"
 	"github.com/tpkeeper/evm/rlp"
 )
 
@@ -318,7 +318,7 @@ func TestLargeValue(t *testing.T) {
 }
 
 type countingDB struct {
-	ethdb.KeyValueStore
+	keyvaluedb.KeyValueStore
 	gets map[string]int
 }
 

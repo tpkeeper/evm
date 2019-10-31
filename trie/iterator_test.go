@@ -23,7 +23,7 @@ import (
 	"testing"
 
 	"github.com/tpkeeper/evm/common"
-	"github.com/tpkeeper/evm/ethdb/memorydb"
+	"github.com/tpkeeper/evm/keyvaluedb/memorydb"
 )
 
 func TestIterator(t *testing.T) {
