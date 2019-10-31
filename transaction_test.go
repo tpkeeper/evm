@@ -37,9 +37,6 @@ func TestApplyTransaction(t *testing.T) {
 
 
 	chainConfig := params.ChainConfig{
-		EIP150Block:    new(big.Int),
-		EIP155Block:    new(big.Int),
-		EIP158Block:    new(big.Int),
 	}
 
 	author:=common.BytesToAddress([]byte("author"))
