@@ -31,8 +31,6 @@ func EnableEIP(eipNum int, jt *JumpTable) error {
 		enable2200(jt)
 	case 1884:
 		enable1884(jt)
-	case 1344:
-		enable1344(jt)
 	default:
 		return fmt.Errorf("undefined eip %d", eipNum)
 	}
@@ -66,25 +64,7 @@ func opSelfBalance(pc *uint64, interpreter *EVMInterpreter, contract *Contract, 
 	return nil, nil
 }
 
-// enable1344 applies EIP-1344 (ChainID Opcode)
-// - Adds an opcode that returns the current chain’s EIP-155 unique identifier
-func enable1344(jt *JumpTable) {
-	// New opcode
-	jt[CHAINID] = operation{
-		execute:     opChainID,
-		constantGas: GasQuickStep,
-		minStack:    minStack(0, 1),
-		maxStack:    maxStack(0, 1),
-		valid:       true,
-	}
-}
 
-// opChainID implements CHAINID opcode
-func opChainID(pc *uint64, interpreter *EVMInterpreter, contract *Contract, memory *Memory, stack *Stack) ([]byte, error) {
-	chainId := interpreter.intPool.get().Set(interpreter.evm.chainConfig.ChainID)
-	stack.push(chainId)
-	return nil, nil
-}
 
 // enable2200 applies EIP-2200 (Rebalance net-metered SSTORE)
 func enable2200(jt *JumpTable) {

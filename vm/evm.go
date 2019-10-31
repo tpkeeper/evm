@@ -43,13 +43,8 @@ type (
 // run runs the given contract and takes care of running precompiles with a fallback to the byte code interpreter.
 func run(evm *EVM, contract *Contract, input []byte, readOnly bool) ([]byte, error) {
 	if contract.CodeAddr != nil {
-		precompiles := PrecompiledContractsHomestead
-		if evm.chainRules.IsByzantium {
-			precompiles = PrecompiledContractsByzantium
-		}
-		if evm.chainRules.IsIstanbul {
-			precompiles = PrecompiledContractsIstanbul
-		}
+		precompiles :=  PrecompiledContractsByzantium
+
 		if p := precompiles[*contract.CodeAddr]; p != nil {
 			return RunPrecompiledContract(p, input, contract)
 		}
@@ -142,22 +137,6 @@ func NewEVM(ctx Context, statedb StateDB, chainConfig *params.ChainConfig, vmCon
 		interpreters: make([]Interpreter, 0, 1),
 	}
 
-	if chainConfig.IsEWASM(ctx.BlockNumber) {
-		// to be implemented by EVM-C and Wagon PRs.
-		// if vmConfig.EWASMInterpreter != "" {
-		//  extIntOpts := strings.Split(vmConfig.EWASMInterpreter, ":")
-		//  path := extIntOpts[0]
-		//  options := []string{}
-		//  if len(extIntOpts) > 1 {
-		//    options = extIntOpts[1..]
-		//  }
-		//  evm.interpreters = append(evm.interpreters, NewEVMVCInterpreter(evm, vmConfig, options))
-		// } else {
-		// 	evm.interpreters = append(evm.interpreters, NewEWASMInterpreter(evm, vmConfig))
-		// }
-		panic("No supported ewasm interpreter yet.")
-	}
-
 	// vmConfig.EVMInterpreter will be used by EVM-C, it won't be checked here
 	// as we always want to have the built-in EVM as the failover option.
 	evm.interpreters = append(evm.interpreters, NewEVMInterpreter(evm, vmConfig))
@@ -209,9 +188,7 @@ func (evm *EVM) Call(caller ContractRef, addr common.Address, input []byte, gas 
 		if evm.chainRules.IsByzantium {
 			precompiles = PrecompiledContractsByzantium
 		}
-		if evm.chainRules.IsIstanbul {
-			precompiles = PrecompiledContractsIstanbul
-		}
+
 		if precompiles[addr] == nil && evm.chainRules.IsEIP158 && value.Sign() == 0 {
 			// Calling a non existing account, don't do anything, but ping the tracer
 			if evm.vmConfig.Debug && evm.depth == 0 {
