@@ -839,3 +839,41 @@
 16:42:17.055947 version@stat F·[2 1] S·4KiB[1KiB 3KiB] Sc·[0.50 0.00]
 16:42:17.060944 db@janitor F·5 G·0
 16:42:17.060944 db@open done T·8.9945ms
+=============== Nov 2, 2019 (CST) ===============
+11:34:48.167646 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:34:48.222604 version@stat F·[2 1] S·4KiB[1KiB 3KiB] Sc·[0.50 0.00]
+11:34:48.222604 db@open opening
+11:34:48.223605 journal@recovery F·1
+11:34:48.224603 journal@recovery recovering @199
+11:34:48.294549 memdb@flush created L0@201 N·5 S·631B "sec..=\xb6\xdd,v190":"\xf39\xb1..X\xf6:,v192"
+11:34:48.295550 version@stat F·[3 1] S·5KiB[1KiB 3KiB] Sc·[0.75 0.00]
+11:34:48.552354 db@janitor F·6 G·0
+11:34:48.552354 db@open done T·329.7497ms
+=============== Nov 2, 2019 (CST) ===============
+11:50:59.106509 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+11:50:59.159469 version@stat F·[3 1] S·5KiB[1KiB 3KiB] Sc·[0.75 0.00]
+11:50:59.160468 db@open opening
+11:50:59.160468 journal@recovery F·1
+11:50:59.162467 journal@recovery recovering @202
+11:50:59.218424 memdb@flush created L0@204 N·5 S·631B "sec..=\xb6\xdd,v196":"\xf39\xb1..X\xf6:,v198"
+11:50:59.219423 version@stat F·[4 1] S·6KiB[2KiB 3KiB] Sc·[1.00 0.00]
+11:50:59.291369 db@janitor F·7 G·0
+11:50:59.291369 db@open done T·130.9014ms
+11:50:59.292368 table@compaction L0·4 -> L1·1 S·6KiB Q·201
+12:01:44.885221 table@build created L1@207 N·54 S·4KiB "\x1b\xe0g..`\xef5,v126":"\xfb\xbb\xc8..\xcd\x14f,v177"
+12:01:44.885221 version@stat F·[0 1] S·4KiB[0B 4KiB] Sc·[0.00 0.00]
+12:01:45.636650 table@compaction committed F-4 S-1KiB Ke·0 D·10 T·10m46.3442811s
+12:01:45.636650 table@remove removed @201
+=============== Nov 2, 2019 (CST) ===============
+12:02:08.507250 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:02:08.577197 version@stat F·[0 1] S·4KiB[0B 4KiB] Sc·[0.00 0.00]
+12:02:08.577197 db@open opening
+12:02:08.578196 journal@recovery F·1
+12:02:08.579195 journal@recovery recovering @205
+12:02:08.583192 memdb@flush created L0@208 N·5 S·631B "sec..=\xb6\xdd,v202":"\xf39\xb1..X\xf6:,v204"
+12:02:08.584192 version@stat F·[1 1] S·5KiB[631B 4KiB] Sc·[0.25 0.00]
+12:02:08.591186 db@janitor F·7 G·3
+12:02:08.591186 db@janitor removing table-192
+12:02:08.592185 db@janitor removing table-193
+12:02:08.592185 db@janitor removing table-204
+12:02:08.593185 db@open done T·15.988ms

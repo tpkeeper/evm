@@ -33,7 +33,7 @@ func TestCreateAccount(t *testing.T) {
 
 	root:=stateDb.IntermediateRoot(false)
 	t.Log("root",root.String())
-	stateDb.Commit(false)
+	stateDb.Commit(true)
 	stateDb.Database().TrieDB().Commit(root,true)
 }
 
@@ -145,6 +145,8 @@ func TestCall(t *testing.T) {
 	chainContext:= chainContextTest{}
 
 	usedGas:=uint64(50)
+
+	stateDb.Prepare(tx.Hash(), common.Hash{}, 0) //记录当前处理的tx信息，addlog 的时候会用到
 	receipt,err:=ApplyTransaction(&chainConfig,chainContext,&author,gasPool,stateDb,&header,tx,&usedGas,vmConfig)
 	if err!=nil{
 		t.Fatal(err)
